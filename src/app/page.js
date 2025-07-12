@@ -1,103 +1,57 @@
-import Image from "next/image";
+'use client';
+import React, {useState }from "react";
+import axios from 'axios';
+import Link from 'next/link';
+import {useRouter} from 'next/navigation';
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.js
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+const router= useRouter();
+const [formvalue, setFormvalue] = useState({name:"", email:"", password:"", cpassword:"", user_type:""});
+const [message, setMessage]= useState('');
+const handleInput =(e)=>{ 
+  setFormvalue( {...formvalue, [e.target.name]:e.target.value});
+}
+const handleSubmit =async(e)=> {
+  e.preventDefault();
+  const formData= {name:formvalue.name, email:formvalue.email, password:formvalue.password, cpassword:formvalue.password, user_type:formvalue.user_type};
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+    const res= await axios.post("http://localhost/nextphp/mentee.php", formData);
+    if (res.data.success) 
+      {
+        setMessage(res.data.success);
+        setTimeout( ()=>{ 
+          router.push("/loginform");
+         }, 2000);
+         
+      }  
+};
+  return (
+    <React.Fragment>
+    <div className="grid grid-rows-[auto_10px_auto] items-center justify-items-center min-h-screen p-8 pb-4 gap-4 sm:p-4 font-[family-name:var(--font-geist-sans)]" style={{
+      backgroundImage:'url(https://plus.unsplash.com/premium_photo-1670659359754-02934f07580f?q=80&w=1032&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)'
+    }} >
+      <h2 className="absolute top-0 left-0 text-yellow-500 font-bold cursor-pointer animate-pulse">Welcome to Rontech</h2>
+         <h3 className=" text-2x1 font-bold uppercase text-black animate-bounce">Register now</h3>
+         <p className="text-red-500"> {message} </p>
+           <form onSubmit={handleSubmit} className="max-w-md mx-auto rounded-lg bg-white-700 p-8 shadow-md text-black"  style={{ border: '1px solid yellow'}}>
+               <input type="text" name="name" value={formvalue.name} required placeholder="enter your name" className="mb-4 w-full rounded-lg border p-2 focus:outline-none focus:ring-yellow-500" onChange={handleInput}/>
+               <input type="text" name="email" value={formvalue.email} required placeholder="enter your email"className="mb-4 w-full rounded-lg border p-2 focus:outline-none focus:ring-yellow-500" onChange={handleInput}/>
+               <input type="password" name="password" value={formvalue.password} required placeholder="enter your password"className="mb-4 w-full rounded-lg border p-2 focus:outline-none focus:ring-yellow-500" onChange={handleInput}/>
+               <input type="password" name="cpassword" value={formvalue.cpassword} required placeholder="confirm your password" className="mb-4 w-full rounded-lg border p-2 focus:outline-none focus:ring-yellow-500" onChange={handleInput}/>
+               <select name="user_type" className="mb-4 w-full rounded-lg border p-2 focus:outline-none focus:ring-yellow-500" value={formvalue.user_type} onChange={handleInput}>
+                   <option value="user">mentee</option>
+                   <option value="admin">admin</option>
+                   <option value="mentor">mentor</option>
+               </select>
+               <button name="submit" className="w-full rounded-lg bg-yellow-500 p-2 text-black hover:bg-yellow-700">register now</button>
+               <p className="mt-5 text-black" >Already have an account?
+                   <Link href="/loginform"
+                className="text-yellow-400 hover:text-yellow-700">
+               login now 
+               </Link>
+               </p>
+           </form>
     </div>
+    </React.Fragment>
   );
 }

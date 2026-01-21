@@ -5,14 +5,18 @@ const config = {
    "./components/*.js",
     "./components/*.jsx"
   ],
+ 
   theme: {
-    extent: {
-      colors: {
-        crimson: '#DC143C',
+    extend: {
+      fontFamily: {
+        oxygen: ['Oxygen', 'sans-serif'],
       },
     },
   },
   plugins: ["@tailwindcss/postcss"],
 };
+ module.exports =config;
+
+
 
 export default config;

@@ -4,6 +4,14 @@
 @tailwind components;
 @tailwind utilities;
 
+html, body {
+    /* width:100%; */
+    height:100%;
+    overflow-x:hidden;
+    overflow-y:auto;
+     background-color:#021027;
+    }
+
 
 :root {
   --background: #ffffff;

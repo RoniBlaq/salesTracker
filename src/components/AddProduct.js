@@ -26,7 +26,7 @@ import {useRouter} from 'next/navigation';
            formData.append('cost_price', costPrice);
            formData.append('selling_price', sellingPrice);
 
-           const response = await axios.post('http://localhost/tracker/products.php', formData);
+           const response = await axios.post('https://tracker.great-site.net/products.php', formData);
 
            console.log('Response:', response.data);
 
@@ -71,7 +71,7 @@ import {useRouter} from 'next/navigation';
          <button type="button" onClick={handleAddProduct} className="bg-orange-500 text-white px-4 py-2 rounded cursor-pointer "> Add Product</button> 
          {message && <p className="text-green-500 mt-2">{message}</p>}
          </form> 
-       </div> 
+       </div>  
        </div>
      );
     }

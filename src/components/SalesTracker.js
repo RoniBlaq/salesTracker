@@ -15,12 +15,11 @@ import {useRouter} from 'next/navigation';
     const [error, setError] = useState(null);
 
      useEffect(() => {
-        axios.get('http://localhost/tracker/products.php?products=1')
+        axios.get('https://tracker.great-site.net/products.php?products=1')
         .then(res => { setProducts(res.data);
      })
         .catch(err => console.error(err)); 
-      
-         axios.get('http://localhost/tracker/sales.php?sales=1')
+         axios.get('https://tracker.great-site.net/sales.php?sales=1')
         .then(res => { setSales(res.data);
      })
         .catch(err => console.error(err)); 
@@ -28,7 +27,7 @@ import {useRouter} from 'next/navigation';
 
     const handleProductAdded = async () => {
       try{
-        const res = await axios.get('http://localhost/tracker/products.php?products=1');
+        const res = await axios.get('https://tracker.great-site.net/products.php?products=1');
         setProducts(res.data);
       } catch(err) { 
         console.error(err); 
@@ -51,11 +50,11 @@ import {useRouter} from 'next/navigation';
            formData.append('quantity_sold', quantitySold);
             formData.append('sale_price', salePrice);
 
-            const response = await axios.post('http://localhost/tracker/sales.php', formData );
+            const response = await axios.post('https://tracker.great-site.net/sales.php', formData );
      
             if (response.data.success) {
               alert(response.data.message);
-              const salesRes = await axios.get('http://localhost/tracker/sales.php?sales=1');
+              const salesRes = await axios.get('https://tracker.great-site.net/sales.php?sales=1');
               setSales(salesRes.data);
                 setSelectedProduct(null);
             setQuantitySold(0);
@@ -72,7 +71,7 @@ import {useRouter} from 'next/navigation';
          return (
           <>
           <AddProduct onProductAdded={handleProductAdded}/> 
-           <div className="bg-white p-4"> 
+           <div className="bg-white p-4 m-b-6"> 
            <h1 className="text-3xl text-orange-500 border-b-2 border-black pb-2">Sales Tracker</h1>
             <div className="flex flex-col lg:flex-row justify-between"> 
               <div className="lg:w-1/2 border border-orange-500 p-4 mb-4 lg:mb-0"> 
@@ -110,6 +109,14 @@ import {useRouter} from 'next/navigation';
        ))}
        </tbody>
       </table> 
+        <button type="button" onClick={() => {
+        setQuantitySold(0);
+        setSalePrice(0);
+        setSelectedProduct(null);
+       }}
+       className="ml-4 bg-gray-500 text-white px-4 py-2 rounded">
+        Clear
+       </button>AW3
       </div>
        </div> 
         </div> 
